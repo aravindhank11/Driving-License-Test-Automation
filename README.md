@@ -4,7 +4,7 @@ An automated way of enabling license testing by means of integrating smart IoT s
 ## Motivation
 The Process of Driving License Test in India is more often than not evaded by the public. The fact that more than 60% of the people evade from appearing for Driving test might be one of the key reasons for accidents across India and so put an end to it, there must be a strict and stringent measure to crub the ill-measures taken by public to avoid the testing. This project is one such effect that tries to automate the entire process of securing a driving license with minimal manual intervention, resources and making it as foolproof as possible. The underlying principle is to use various sensors on the track to sense the motion of the vehicle to test the performance of the driver.
 
-<img src="PICTURES/MOTIVATION.jpg">
+<img src="PICTURES/MOTIVATION.png">
 
 ## Automation
 1. **Testing driver’s ability to drive on an 8-shaped road**
@@ -30,6 +30,7 @@ The Process of Driving License Test in India is more often than not evaded by th
   - Usage of Laser Sensors at 2 places and accelerometer sensor of an android device kept in the car, 
   - The accelerometer is used to sense the direction of motion to ensure the driver is moving the reverse gear
 Lasers L1 and L2 is used to ensure proper driving
+<img src = "PICTURES/S.png">
 
 ## Components Needed to implement the prototype
 1. Node MCU ESP 8266 module
