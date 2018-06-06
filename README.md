@@ -38,6 +38,10 @@ Lasers L1 and L2 is used to ensure proper driving
 3. Proximity Sensors
 4. Accelerometer Sensor
 
+## Languages and Softwares used
+1. Arduino - C++
+2. Thingspeak Cloud Analytics - Matlab
+
 ## Video Explanation and working
 https://drive.google.com/open?id=1mU2j4SMorm2l8oUaUa-fbRzLSi8Yl-_n
 
