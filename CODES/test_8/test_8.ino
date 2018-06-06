@@ -7,8 +7,8 @@ char jsonBuffer[5000] = "[";
 char ssid[] = "abcd"; // Network SSID (name)
 char pass[] = "raghav123"; // Network password
 WiFiClient client; // Initialize the WiFi client library
-unsigned long myChannelNumber = 352887;
-const char * myWriteAPIKey = "WTPWUIP2YE2PMPNC";
+unsigned long myChannelNumber = <Channel Number>;
+const char * myWriteAPIKey = <Write API KEY>;
 
 char server[] = "api.thingspeak.com"; // ThingSpeak Server
 
@@ -93,10 +93,10 @@ void start_or_stop_8_test()
 
   Serial.println(" ");
   Serial.print("Waiting to start 8 test");
-  status_ = ThingSpeak.readFloatField(352887, 7);
+  status_ = ThingSpeak.readFloatField(myChannelNumber, 7);
   while(status_ != 1)
   {
-    status_ = ThingSpeak.readFloatField(352887, 7);
+    status_ = ThingSpeak.readFloatField(myChannelNumber, 7);
     Serial.print(".");
   }
   return;
@@ -256,7 +256,7 @@ void loop()
 // Updates the ThingSpeakchannel with data
 void httpRequest(char* jsonBuffer) 
 {
-  stop_8 = ThingSpeak.readFloatField(352887, 7);
+  stop_8 = ThingSpeak.readFloatField(myChannelNumber, 7);
   if(stop_8 == 0)
   {
     ThingSpeak.writeField(myChannelNumber, 7, 2, myWriteAPIKey);
@@ -274,7 +274,7 @@ void httpRequest(char* jsonBuffer)
    */
 
   // Format the data buffer as noted above
-  char data[2000] = "{\"write_api_key\":\"WTPWUIP2YE2PMPNC\",\"updates\":"; // WTPWUIP2YE2PMPNC => YOUR-CHANNEL-WRITEAPIKEY
+  char data[2000] = "{\"write_api_key\":\""+myWriteAPIKey+"\",\"updates\":"; 
   strcat(data,jsonBuffer);
   strcat(data,"}");
   // Close any connection before sending a new request
@@ -283,7 +283,7 @@ void httpRequest(char* jsonBuffer)
   Serial.println(data);
   // POST data to ThingSpeak
   if (client.connect(server, 80)) {
-    client.println("POST /channels/352887/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
+    client.println("POST /channels/"+StringmyChannelNumber)+"/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
     client.println("Host: api.thingspeak.com");
     client.println("User-Agent: mw.doc.bulk-update (Arduino ESP8266)");
     client.println("Connection: close");

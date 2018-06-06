@@ -3,11 +3,11 @@
 #include<ESP8266WiFi.h>
 
 char jsonBuffer[5000] = "[";
-char ssid[] = "abcd"; // Network SSID (name)
-char pass[] = "raghav123"; // Network password
+char ssid[] = ""; // Network SSID (name)
+char pass[] = ""; // Network password
 WiFiClient client; // Initialize the WiFi client library
-unsigned long myChannelNumber = 352887;
-const char * myWriteAPIKey = "WTPWUIP2YE2PMPNC";
+unsigned long myChannelNumber = <Channel Number>;
+const char * myWriteAPIKey = <Write Key>;
 
 char server[] = "api.thingspeak.com"; // ThingSpeak Server
 
@@ -84,10 +84,10 @@ void start_or_stop_drive_uphill_test()
 
   Serial.println(" ");
   Serial.print("Waiting to start uphill drive test");
-  status_ = ThingSpeak.readFloatField(352887, 5);
+  status_ = ThingSpeak.readFloatField(myChannelNumber, 5);
   while(status_ != 1)
   {
-    status_ = ThingSpeak.readFloatField(352887, 5);
+    status_ = ThingSpeak.readFloatField(myChannelNumber, 5);
     Serial.print(".");
   }
   return;
@@ -233,7 +233,7 @@ void httpRequest(char* jsonBuffer)
    */
 
   // Format the data buffer as noted above
-  char data[2000] = "{\"write_api_key\":\"WTPWUIP2YE2PMPNC\",\"updates\":"; // WTPWUIP2YE2PMPNC => YOUR-CHANNEL-WRITEAPIKEY
+  char data[2000] = "{\"write_api_key\":\""+myWriteAPIKey+"\",\"updates\":"; 
   strcat(data,jsonBuffer);
   strcat(data,"}");
   // Close any connection before sending a new request
@@ -242,7 +242,7 @@ void httpRequest(char* jsonBuffer)
   Serial.println(data);
   // POST data to ThingSpeak
   if (client.connect(server, 80)) {
-    client.println("POST /channels/352887/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
+    client.println("POST /channels/"+String(myChannelNumber)+"/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
     client.println("Host: api.thingspeak.com");
     client.println("User-Agent: mw.doc.bulk-update (Arduino ESP8266)");
     client.println("Connection: close");

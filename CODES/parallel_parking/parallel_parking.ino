@@ -4,11 +4,11 @@
 
 char jsonBuffer[5000] = "[";
 
-char ssid[] = "abcd"; // Network SSID (name)
-char pass[] = "raghav123"; // Network password
+char ssid[] = ""; // Network SSID (name)
+char pass[] = ""; // Network password
 WiFiClient client; // Initialize the WiFi client library
-unsigned long myChannelNumber = 352887;
-const char * myWriteAPIKey = "WTPWUIP2YE2PMPNC";
+unsigned long myChannelNumber = <channel number>;
+const char * myWriteAPIKey = <Write Key>;
 
 char server[] = "api.thingspeak.com"; // ThingSpeak Server
 
@@ -76,10 +76,10 @@ void setup()
 
 void start_or_stop_parallel_park_test()
 {
-  int status_ = ThingSpeak.readFloatField(352887, 3);
+  int status_ = ThingSpeak.readFloatField(myChannelNumber, 3);
   while(status_ != 1)
   {
-    status_ = ThingSpeak.readFloatField(352887, 3);
+    status_ = ThingSpeak.readFloatField(myChannelNumber, 3);
     Serial.print(".");
   }
   return;
@@ -227,7 +227,7 @@ void httpRequest(char* jsonBuffer) {
    *   "{\"write_api_key\":\"YOUR-CHANNEL-WRITEAPIKEY\",\"updates\":[{\"delta_t\":0,\"field1\":-60},{\"delta_t\":15,\"field1\":200},{\"delta_t\":15,\"field1\":-66}]
    */
 
-  stop_parallel_park = ThingSpeak.readFloatField(352887, 3);
+  stop_parallel_park = ThingSpeak.readFloatField(myChannelNumber, 3);
   if(stop_parallel_park == 0)
   {
     Serial.println("Test Completed and submitted for evaluation");
@@ -240,7 +240,7 @@ void httpRequest(char* jsonBuffer) {
   }
 
   // Format the data buffer as noted above
-  char data[2000] = "{\"write_api_key\":\"WTPWUIP2YE2PMPNC\",\"updates\":"; // WTPWUIP2YE2PMPNC => YOUR-CHANNEL-WRITEAPIKEY
+  char data[2000] = "{\"write_api_key\":\""+myWriteAPIKey+"\",\"updates\":"; 
   strcat(data,jsonBuffer);
   strcat(data,"}");
   // Close any connection before sending a new request
@@ -249,7 +249,7 @@ void httpRequest(char* jsonBuffer) {
   Serial.println(data);
   // POST data to ThingSpeak
   if (client.connect(server, 80)) {
-    client.println("POST /channels/352887/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
+    client.println("POST /channels/"+String(myChannelNumber)+"/bulk_update.json HTTP/1.1"); // Replace YOUR-CHANNEL-ID with your ThingSpeak channel ID
     client.println("Host: api.thingspeak.com");
     client.println("User-Agent: mw.doc.bulk-update (Arduino ESP8266)");
     client.println("Connection: close");
