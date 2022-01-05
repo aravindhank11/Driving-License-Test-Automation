@@ -42,9 +42,6 @@ Lasers L1 and L2 is used to ensure proper driving
 1. Arduino - C++
 2. Thingspeak Cloud Analytics - Matlab
 
-## Video Explanation and working
-https://drive.google.com/open?id=1mU2j4SMorm2l8oUaUa-fbRzLSi8Yl-_n
-
 ## Future Work
 1. Scalaing the application for realtime application.
 2. Addition of GUI and better user experience
